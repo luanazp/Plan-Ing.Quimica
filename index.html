@@ -57,12 +57,14 @@
       padding: 0.5rem 1rem;
       border-radius: 8px;
       background-color: var(--bloqueada);
-      cursor: pointer;
+      cursor: not-allowed;
       transition: 0.3s;
+      user-select: none;
     }
     .materia.habilitada {
       background-color: var(--habilitada);
       border: 1px solid #aaa;
+      cursor: pointer;
     }
     .materia.aprobada {
       background-color: var(--aprobada);
@@ -84,44 +86,108 @@
 </head>
 <body>
   <h1>Malla Interactiva - Ingeniería Química</h1>
-
   <div id="malla"></div>
   <div class="contador" id="contador"></div>
-
   <div id="exigencias">
     <h3>Exigencias adicionales</h3>
     <ul>
-      <li>Suficiencia de idioma (Inglés)</li>
-      <li>Prácticas de Fábrica</li>
+      <li id="ingles">Suficiencia de idioma (Inglés)</li>
+      <li id="practicas">Prácticas de Fábrica</li>
     </ul>
   </div>
 
   <script>
     const materias = {
-      "1° Año": {
-        "Módulo 1": ["Cálculo I", "Álgebra y Geometría Analítica", "Sistemas de Representación", "Física I"],
-        "Módulo 2": ["Elementos de Álgebra Lineal", "Cálculo II", "Física II", "Fundamentos de Química General", "Informática"]
-      },
-      "2° Año": {
-        "Módulo 3": ["Cálculo III", "Física III", "Química General e Inorgánica"],
-        "Módulo 4": ["Cálculo IV", "Probabilidad y Estadística", "Química Analítica I", "Química Orgánica I"]
-      },
-      "3° Año": {
-        "Módulo 5": ["Química Analítica II", "Química Orgánica II", "Introducción a la Ingeniería Química", "Termodinámica de Procesos"],
-        "Módulo 6": ["Electrotecnia y Máquinas Eléctricas", "Fisicoquímica", "Balances de Materia y Energía", "Fenómenos de Transporte"]
-      },
-      "4° Año": {
-        "Módulo 7": ["Microbiología General e Industrial", "Operaciones Unitarias I", "Análisis y Diseño de Reactores I", "Economía y Organización Industrial"],
-        "Módulo 8": ["Análisis y Diseño de Reactores II", "Operaciones Unitarias II", "Ingeniería Legal", "Mecánica Aplicada"]
-      },
-      "5° Año": {
-        "Módulo 9": ["Operaciones Unitarias III", "Control de Procesos", "Formulación y Evaluación de Proyectos"],
-        "Módulo 10": ["Ingeniería Ambiental e Higiene y Seguridad del Trabajo", "Diseño y Optimización de Procesos", "Tecnología de los Procesos Industriales en Escala Piloto"]
-      }
+      'modulo1': ['calculo1', 'algebra1', 'sistemas', 'fisica1'],
+      'modulo2': ['algebra2', 'calculo2', 'fisica2', 'fundamentos', 'informatica'],
+      'modulo3': ['calculo3', 'fisica3', 'inorganica'],
+      'modulo4': ['calculo4', 'probabilidad', 'analitica1', 'organica1'],
+      'modulo5': ['analitica2', 'organica2', 'introduccion', 'termodinamica'],
+      'modulo6': ['electrotecnia', 'fisicoquimica', 'balances', 'fenomenos'],
+      'modulo7': ['microbiologia', 'operaciones1', 'reactores1', 'economia'],
+      'modulo8': ['reactores2', 'operaciones2', 'legal', 'mecanica'],
+      'modulo9': ['operaciones3', 'control', 'proyectos'],
+      'modulo10': ['ambiental', 'diseno', 'piloto'],
+      'exigencias': ['ingles', 'practicas']
     };
 
     const correlativas = {
-      "4° Año": ["Suficiencia de idioma (Inglés)"]
+      algebra2: ['algebra1'],
+      calculo2: ['calculo1'],
+      fisica2: ['fisica1', 'algebra1'],
+      fundamentos: ['calculo1', 'fisica1'],
+      calculo3: ['calculo2', 'algebra2'],
+      fisica3: ['fisica2', 'calculo2', 'fundamentos'],
+      inorganica: ['fundamentos'],
+      analitica1: ['calculo1', 'inorganica'],
+      organica1: ['inorganica'],
+      introduccion: ['fisica2', 'calculo2', 'informatica', 'inorganica'],
+      termodinamica: ['fisica2', 'inorganica', 'calculo3'],
+      analitica2: ['analitica1', 'fisica3', 'probabilidad'],
+      organica2: ['organica1'],
+      fisicoquimica: ['fisica3', 'termodinamica'],
+      balances: ['termodinamica', 'introduccion'],
+      fenomenos: ['termodinamica', 'calculo4'],
+      electrotecnia: ['fisica3'],
+      microbiologia: ['organica2', 'introduccion', 'ingles'],
+      operaciones1: ['fenomenos', 'balances', 'ingles'],
+      reactores1: ['fisicoquimica', 'balances', 'ingles'],
+      economia: ['fenomenos', 'balances', 'ingles'],
+      reactores2: ['reactores1', 'fenomenos'],
+      operaciones2: ['operaciones1', 'ingles'],
+      legal: ['operaciones1', 'ingles'],
+      mecanica: ['termodinamica'],
+      operaciones3: ['reactores1', 'operaciones2', 'operaciones1'],
+      control: ['reactores1', 'operaciones2', 'operaciones1'],
+      proyectos: ['economia', 'reactores1', 'operaciones1'],
+      ambiental: ['operaciones1'],
+      diseno: ['reactores1', 'operaciones1', 'operaciones2'],
+      piloto: ['operaciones3'],
+      practicas: ['operaciones1', 'reactores1'],
+      ingles: ['calculo1', 'algebra1', 'sistemas', 'fisica1']
+    };
+
+    const nombres = {
+      calculo1: "Cálculo I",
+      algebra1: "Álgebra y Geometría Analítica",
+      sistemas: "Sistemas de Representación",
+      fisica1: "Física I",
+      algebra2: "Elementos de Álgebra Lineal",
+      calculo2: "Cálculo II",
+      fisica2: "Física II",
+      fundamentos: "Fundamentos de Química General",
+      informatica: "Informática",
+      calculo3: "Cálculo III",
+      fisica3: "Física III",
+      inorganica: "Química General e Inorgánica",
+      calculo4: "Cálculo IV",
+      probabilidad: "Probabilidad y Estadística",
+      analitica1: "Química Analítica I",
+      organica1: "Química Orgánica I",
+      analitica2: "Química Analítica II",
+      organica2: "Química Orgánica II",
+      introduccion: "Introducción a la Ingeniería Química",
+      termodinamica: "Termodinámica de Procesos",
+      electrotecnia: "Electrotecnia y Máquinas Eléctricas",
+      fisicoquimica: "Fisicoquímica",
+      balances: "Balances de Materia y Energía",
+      fenomenos: "Fenómenos de Transporte",
+      microbiologia: "Microbiología General e Industrial",
+      operaciones1: "Operaciones Unitarias I",
+      reactores1: "Análisis y Diseño de Reactores I",
+      economia: "Economía y Organización Industrial",
+      reactores2: "Análisis y Diseño de Reactores II",
+      operaciones2: "Operaciones Unitarias II",
+      legal: "Ingeniería Legal",
+      mecanica: "Mecánica Aplicada",
+      operaciones3: "Operaciones Unitarias III",
+      control: "Control de Procesos",
+      proyectos: "Formulación y Evaluación de Proyectos",
+      ambiental: "Ingeniería Ambiental e Higiene y Seguridad del Trabajo",
+      diseno: "Diseño y Optimización de Procesos",
+      piloto: "Tecnología de los Procesos Industriales en Escala Piloto",
+      ingles: "Suficiencia de Idioma (Inglés)",
+      practicas: "Prácticas de Fábrica"
     };
 
     const aprobadas = JSON.parse(localStorage.getItem("aprobadas") || "[]");
@@ -129,47 +195,48 @@
     function crearMalla() {
       let total = 0;
       let container = document.getElementById("malla");
-      for (const [anio, modulos] of Object.entries(materias)) {
-        let anioDiv = document.createElement("div");
-        anioDiv.className = "anio";
-        anioDiv.innerHTML = `<h2>${anio}</h2>`;
-        for (const [modulo, list] of Object.entries(modulos)) {
-          let moduloDiv = document.createElement("div");
-          moduloDiv.className = "modulo";
-          moduloDiv.innerHTML = `<h3>${modulo}</h3>`;
-          let matDiv = document.createElement("div");
-          matDiv.className = "materias";
-          list.forEach(materia => {
-            total++;
-            let div = document.createElement("div");
-            div.className = "materia";
-            div.textContent = materia;
-            if (aprobadas.includes(materia)) {
-              div.classList.add("aprobada");
-            } else {
-              div.classList.add("habilitada");
-            }
-            div.addEventListener("click", () => toggleMateria(div, materia));
-            matDiv.appendChild(div);
-          });
-          moduloDiv.appendChild(matDiv);
-          anioDiv.appendChild(moduloDiv);
+      Object.entries(materias).forEach(([modulo, lista]) => {
+        const moduloDiv = document.createElement("div");
+        moduloDiv.className = "anio";
+        moduloDiv.innerHTML = `<h2>${modulo.toUpperCase()}</h2><div class="materias"></div>`;
+        const contenedor = moduloDiv.querySelector(".materias");
+        lista.forEach(id => {
+          const mat = document.createElement("div");
+          mat.className = "materia";
+          mat.id = id;
+          mat.textContent = nombres[id] || id;
+          contenedor.appendChild(mat);
+        });
+        container.appendChild(moduloDiv);
+      });
+      actualizarMaterias();
+    }
+
+    function actualizarMaterias() {
+      Object.keys(nombres).forEach(id => {
+        const mat = document.getElementById(id);
+        const reqs = correlativas[id] || [];
+        const habilitada = reqs.every(r => aprobadas.includes(r));
+        mat.className = 'materia';
+        if (aprobadas.includes(id)) {
+          mat.classList.add("aprobada");
+        } else if (habilitada) {
+          mat.classList.add("habilitada");
+          mat.onclick = () => toggleMateria(id);
+        } else {
+          mat.classList.remove("habilitada");
+          mat.onclick = null;
         }
-        container.appendChild(anioDiv);
-      }
+      });
       actualizarContador();
     }
 
-    function toggleMateria(element, materia) {
-      if (aprobadas.includes(materia)) {
-        aprobadas.splice(aprobadas.indexOf(materia), 1);
-        element.classList.remove("aprobada");
-      } else {
-        aprobadas.push(materia);
-        element.classList.add("aprobada");
-      }
+    function toggleMateria(id) {
+      const index = aprobadas.indexOf(id);
+      if (index >= 0) aprobadas.splice(index, 1);
+      else aprobadas.push(id);
       localStorage.setItem("aprobadas", JSON.stringify(aprobadas));
-      actualizarContador();
+      actualizarMaterias();
     }
 
     function actualizarContador() {
