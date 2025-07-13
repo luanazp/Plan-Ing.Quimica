@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Malla Interactiva - Ingeniería Química</title>
   <style>
     :root {
@@ -10,11 +10,6 @@
       --bloqueada: #ccc;
       --titulo: #1d3557;
       --modulo: #457b9d;
-      --a1: #d0ebff;
-      --a2: #d8f3dc;
-      --a3: #f3d9fa;
-      --a4: #ffe5b4;
-      --a5: #a5c0ff;
     }
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -29,6 +24,7 @@
     }
     .anio {
       margin-bottom: 2rem;
+      background: white;
       border-radius: 12px;
       padding: 1.5rem;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -39,21 +35,22 @@
     }
     .modulo {
       margin-bottom: 1rem;
-      background: white;
-      border-radius: 12px;
-      padding: 1rem;
     }
     .modulo h3 {
       background: var(--modulo);
       color: white;
-      padding: 0.5rem;
-      border-radius: 8px;
-      margin: 0 0 0.5rem 0;
+      padding: 0.4rem 1rem;
+      border-radius: 8px 8px 0 0;
+      margin: 0;
     }
     .materias {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       gap: 0.5rem;
+      padding: 1rem;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 0 0 8px 8px;
     }
     .materia {
       padding: 0.5rem 1rem;
@@ -84,11 +81,6 @@
       margin-top: 2rem;
       font-weight: bold;
     }
-    .a1 { background: var(--a1); }
-    .a2 { background: var(--a2); }
-    .a3 { background: var(--a3); }
-    .a4 { background: var(--a4); }
-    .a5 { background: var(--a5); }
   </style>
 </head>
 <body>
@@ -103,30 +95,17 @@
     </ul>
   </div>  <script>
     const materias = {
-      '1° año': [
-        { modulo: 'Módulo 1', items: ['calculo1', 'algebra1', 'sistemas', 'fisica1'] },
-        { modulo: 'Módulo 2', items: ['algebra2', 'calculo2', 'fisica2', 'fundamentos', 'informatica'] }
-      ],
-      '2° año': [
-        { modulo: 'Módulo 3', items: ['calculo3', 'fisica3', 'inorganica'] },
-        { modulo: 'Módulo 4', items: ['calculo4', 'probabilidad', 'analitica1', 'organica1'] }
-      ],
-      '3° año': [
-        { modulo: 'Módulo 5', items: ['analitica2', 'organica2', 'introduccion', 'termodinamica'] },
-        { modulo: 'Módulo 6', items: ['electrotecnia', 'fisicoquimica', 'balances', 'fenomenos'] }
-      ],
-      '4° año': [
-        { modulo: 'Módulo 7', items: ['microbiologia', 'operaciones1', 'reactores1', 'economia'] },
-        { modulo: 'Módulo 8', items: ['reactores2', 'operaciones2', 'legal', 'mecanica'] }
-      ],
-      '5° año': [
-        { modulo: 'Módulo 9', items: ['operaciones3', 'control', 'proyectos'] },
-        { modulo: 'Módulo 10', items: ['ambiental', 'diseno', 'piloto'] }
-      ]
-    };
-
-    const yearClass = {
-      '1° año': 'a1', '2° año': 'a2', '3° año': 'a3', '4° año': 'a4', '5° año': 'a5'
+      'Primer Año - Módulo 1': ['calculo1', 'algebra1', 'sistemas', 'fisica1'],
+      'Primer Año - Módulo 2': ['algebra2', 'calculo2', 'fisica2', 'fundamentos', 'informatica'],
+      'Segundo Año - Módulo 3': ['calculo3', 'fisica3', 'inorganica'],
+      'Segundo Año - Módulo 4': ['calculo4', 'probabilidad', 'analitica1', 'organica1'],
+      'Tercer Año - Módulo 5': ['analitica2', 'organica2', 'introduccion', 'termodinamica'],
+      'Tercer Año - Módulo 6': ['electrotecnia', 'fisicoquimica', 'balances', 'fenomenos'],
+      'Cuarto Año - Módulo 7': ['microbiologia', 'operaciones1', 'reactores1', 'economia'],
+      'Cuarto Año - Módulo 8': ['reactores2', 'operaciones2', 'legal', 'mecanica'],
+      'Quinto Año - Módulo 9': ['operaciones3', 'control', 'proyectos'],
+      'Quinto Año - Módulo 10': ['ambiental', 'diseno', 'piloto'],
+      'Exigencias': ['ingles', 'practicas']
     };
 
     const correlativas = {
@@ -212,29 +191,19 @@
 
     function crearMalla() {
       const container = document.getElementById("malla");
-      Object.entries(materias).forEach(([anio, modulos]) => {
-        const anioDiv = document.createElement("div");
-        anioDiv.className = `anio ${yearClass[anio] || ''}`;
-        anioDiv.innerHTML = `<h2>${anio}</h2>`;
-
-        modulos.forEach(({modulo, items}) => {
-          const moduloDiv = document.createElement("div");
-          moduloDiv.className = "modulo";
-          moduloDiv.innerHTML = `<h3>${modulo}</h3><div class="materias"></div>`;
-          const contenedor = moduloDiv.querySelector(".materias");
-
-          items.forEach(id => {
-            const mat = document.createElement("div");
-            mat.className = "materia";
-            mat.id = id;
-            mat.textContent = nombres[id] || id;
-            contenedor.appendChild(mat);
-          });
-
-          anioDiv.appendChild(moduloDiv);
+      Object.entries(materias).forEach(([modulo, lista]) => {
+        const moduloDiv = document.createElement("div");
+        moduloDiv.className = "anio";
+        moduloDiv.innerHTML = `<h2>${modulo}</h2><div class="materias"></div>`;
+        const contenedor = moduloDiv.querySelector(".materias");
+        lista.forEach(id => {
+          const mat = document.createElement("div");
+          mat.className = "materia";
+          mat.id = id;
+          mat.textContent = nombres[id] || id;
+          contenedor.appendChild(mat);
         });
-
-        container.appendChild(anioDiv);
+        container.appendChild(moduloDiv);
       });
       actualizarMaterias();
     }
@@ -242,7 +211,6 @@
     function actualizarMaterias() {
       Object.keys(nombres).forEach(id => {
         const mat = document.getElementById(id);
-        if (!mat) return;
         const reqs = correlativas[id] || [];
         const habilitada = reqs.every(r => aprobadas.includes(r));
         mat.className = 'materia';
