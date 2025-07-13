@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Malla Interactiva - Ingeniería Química</title>
   <style>
     :root {
@@ -23,16 +23,9 @@
       margin: 0;
       padding: 2rem;
     }
-    header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    header img {
-      width: 100px;
-    }
     h1 {
       text-align: center;
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
     }
     .anio {
       margin-bottom: 2rem;
@@ -46,22 +39,21 @@
     }
     .modulo {
       margin-bottom: 1rem;
+      background: white;
+      border-radius: 12px;
+      padding: 1rem;
     }
     .modulo h3 {
       background: var(--modulo);
       color: white;
-      padding: 0.4rem 1rem;
-      border-radius: 8px 8px 0 0;
-      margin: 0;
+      padding: 0.5rem;
+      border-radius: 8px;
+      margin: 0 0 0.5rem 0;
     }
     .materias {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
-      padding: 1rem;
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 0 0 8px 8px;
     }
     .materia {
       padding: 0.5rem 1rem;
@@ -100,10 +92,7 @@
   </style>
 </head>
 <body>
-  <header>
-    <img src="logo.png" alt="Logo ATEIQ">
-    <h1>Malla Interactiva - Ingeniería Química</h1>
-  </header>
+  <h1>Malla Interactiva - Ingeniería Química</h1>
   <div id="malla"></div>
   <div class="contador" id="contador"></div>
   <div id="exigencias">
@@ -114,56 +103,173 @@
     </ul>
   </div>  <script>
     const materias = {
-      '1° año – Módulo 1': ['calculo1', 'algebra1', 'sistemas', 'fisica1'],
-      '1° año – Módulo 2': ['algebra2', 'calculo2', 'fisica2', 'fundamentos', 'informatica'],
-      '2° año – Módulo 3': ['calculo3', 'fisica3', 'inorganica'],
-      '2° año – Módulo 4': ['calculo4', 'probabilidad', 'analitica1', 'organica1'],
-      '3° año – Módulo 5': ['analitica2', 'organica2', 'introduccion', 'termodinamica'],
-      '3° año – Módulo 6': ['electrotecnia', 'fisicoquimica', 'balances', 'fenomenos'],
-      '4° año – Módulo 7': ['microbiologia', 'operaciones1', 'reactores1', 'economia'],
-      '4° año – Módulo 8': ['reactores2', 'operaciones2', 'legal', 'mecanica'],
-      '5° año – Módulo 9': ['operaciones3', 'control', 'proyectos'],
-      '5° año – Módulo 10': ['ambiental', 'diseno', 'piloto'],
-      'Exigencias adicionales': ['ingles', 'practicas']
+      '1° año': [
+        { modulo: 'Módulo 1', items: ['calculo1', 'algebra1', 'sistemas', 'fisica1'] },
+        { modulo: 'Módulo 2', items: ['algebra2', 'calculo2', 'fisica2', 'fundamentos', 'informatica'] }
+      ],
+      '2° año': [
+        { modulo: 'Módulo 3', items: ['calculo3', 'fisica3', 'inorganica'] },
+        { modulo: 'Módulo 4', items: ['calculo4', 'probabilidad', 'analitica1', 'organica1'] }
+      ],
+      '3° año': [
+        { modulo: 'Módulo 5', items: ['analitica2', 'organica2', 'introduccion', 'termodinamica'] },
+        { modulo: 'Módulo 6', items: ['electrotecnia', 'fisicoquimica', 'balances', 'fenomenos'] }
+      ],
+      '4° año': [
+        { modulo: 'Módulo 7', items: ['microbiologia', 'operaciones1', 'reactores1', 'economia'] },
+        { modulo: 'Módulo 8', items: ['reactores2', 'operaciones2', 'legal', 'mecanica'] }
+      ],
+      '5° año': [
+        { modulo: 'Módulo 9', items: ['operaciones3', 'control', 'proyectos'] },
+        { modulo: 'Módulo 10', items: ['ambiental', 'diseno', 'piloto'] }
+      ]
     };
 
     const yearClass = {
-      '1° año': 'a1',
-      '2° año': 'a2',
-      '3° año': 'a3',
-      '4° año': 'a4',
-      '5° año': 'a5',
-      'Exigencias adicionales': ''
+      '1° año': 'a1', '2° año': 'a2', '3° año': 'a3', '4° año': 'a4', '5° año': 'a5'
     };
 
-    const correlativas = { /* igual que antes */ };
-    const nombres = { /* igual que antes */ };
+    const correlativas = {
+      algebra2: ['algebra1'],
+      calculo2: ['calculo1'],
+      fisica2: ['fisica1', 'algebra1'],
+      fundamentos: ['calculo1', 'fisica1'],
+      calculo3: ['calculo2', 'algebra2'],
+      fisica3: ['fisica2', 'calculo2', 'fundamentos'],
+      inorganica: ['fundamentos'],
+      analitica1: ['calculo1', 'inorganica'],
+      organica1: ['inorganica'],
+      introduccion: ['fisica2', 'calculo2', 'informatica', 'inorganica'],
+      termodinamica: ['fisica2', 'inorganica', 'calculo3'],
+      analitica2: ['analitica1', 'fisica3', 'probabilidad'],
+      organica2: ['organica1'],
+      fisicoquimica: ['fisica3', 'termodinamica'],
+      balances: ['termodinamica', 'introduccion'],
+      fenomenos: ['termodinamica', 'calculo4'],
+      electrotecnia: ['fisica3'],
+      microbiologia: ['organica2', 'introduccion', 'ingles'],
+      operaciones1: ['fenomenos', 'balances', 'ingles'],
+      reactores1: ['fisicoquimica', 'balances', 'ingles'],
+      economia: ['fenomenos', 'balances', 'ingles'],
+      reactores2: ['reactores1', 'fenomenos'],
+      operaciones2: ['operaciones1', 'ingles'],
+      legal: ['operaciones1', 'ingles'],
+      mecanica: ['termodinamica'],
+      operaciones3: ['reactores1', 'operaciones2', 'operaciones1'],
+      control: ['reactores1', 'operaciones2', 'operaciones1'],
+      proyectos: ['economia', 'reactores1', 'operaciones1'],
+      ambiental: ['operaciones1'],
+      diseno: ['reactores1', 'operaciones1', 'operaciones2'],
+      piloto: ['operaciones3'],
+      practicas: ['operaciones1', 'reactores1'],
+      ingles: ['calculo1', 'algebra1', 'sistemas', 'fisica1']
+    };
+
+    const nombres = {
+      calculo1: "Cálculo I",
+      algebra1: "Álgebra y Geometría Analítica",
+      sistemas: "Sistemas de Representación",
+      fisica1: "Física I",
+      algebra2: "Elementos de Álgebra Lineal",
+      calculo2: "Cálculo II",
+      fisica2: "Física II",
+      fundamentos: "Fundamentos de Química General",
+      informatica: "Informática",
+      calculo3: "Cálculo III",
+      fisica3: "Física III",
+      inorganica: "Química General e Inorgánica",
+      calculo4: "Cálculo IV",
+      probabilidad: "Probabilidad y Estadística",
+      analitica1: "Química Analítica I",
+      organica1: "Química Orgánica I",
+      analitica2: "Química Analítica II",
+      organica2: "Química Orgánica II",
+      introduccion: "Introducción a la Ingeniería Química",
+      termodinamica: "Termodinámica de Procesos",
+      electrotecnia: "Electrotecnia y Máquinas Eléctricas",
+      fisicoquimica: "Fisicoquímica",
+      balances: "Balances de Materia y Energía",
+      fenomenos: "Fenómenos de Transporte",
+      microbiologia: "Microbiología General e Industrial",
+      operaciones1: "Operaciones Unitarias I",
+      reactores1: "Análisis y Diseño de Reactores I",
+      economia: "Economía y Organización Industrial",
+      reactores2: "Análisis y Diseño de Reactores II",
+      operaciones2: "Operaciones Unitarias II",
+      legal: "Ingeniería Legal",
+      mecanica: "Mecánica Aplicada",
+      operaciones3: "Operaciones Unitarias III",
+      control: "Control de Procesos",
+      proyectos: "Formulación y Evaluación de Proyectos",
+      ambiental: "Ingeniería Ambiental e Higiene y Seguridad del Trabajo",
+      diseno: "Diseño y Optimización de Procesos",
+      piloto: "Tecnología de los Procesos Industriales en Escala Piloto",
+      ingles: "Suficiencia de Idioma (Inglés)",
+      practicas: "Prácticas de Fábrica"
+    };
+
     const aprobadas = JSON.parse(localStorage.getItem("aprobadas") || "[]");
 
     function crearMalla() {
       const container = document.getElementById("malla");
-      Object.entries(materias).forEach(([modulo, lista]) => {
-        const anio = modulo.split('–')[0].trim();
-        const clase = yearClass[anio] || '';
-        const moduloDiv = document.createElement("div");
-        moduloDiv.className = `anio ${clase}`;
-        moduloDiv.innerHTML = `<h2>${modulo}</h2><div class="materias"></div>`;
-        const contenedor = moduloDiv.querySelector(".materias");
-        lista.forEach(id => {
-          const mat = document.createElement("div");
-          mat.className = "materia";
-          mat.id = id;
-          mat.textContent = nombres[id] || id;
-          contenedor.appendChild(mat);
+      Object.entries(materias).forEach(([anio, modulos]) => {
+        const anioDiv = document.createElement("div");
+        anioDiv.className = `anio ${yearClass[anio] || ''}`;
+        anioDiv.innerHTML = `<h2>${anio}</h2>`;
+
+        modulos.forEach(({modulo, items}) => {
+          const moduloDiv = document.createElement("div");
+          moduloDiv.className = "modulo";
+          moduloDiv.innerHTML = `<h3>${modulo}</h3><div class="materias"></div>`;
+          const contenedor = moduloDiv.querySelector(".materias");
+
+          items.forEach(id => {
+            const mat = document.createElement("div");
+            mat.className = "materia";
+            mat.id = id;
+            mat.textContent = nombres[id] || id;
+            contenedor.appendChild(mat);
+          });
+
+          anioDiv.appendChild(moduloDiv);
         });
-        container.appendChild(moduloDiv);
+
+        container.appendChild(anioDiv);
       });
       actualizarMaterias();
     }
 
-    function actualizarMaterias() { /* igual que antes */ }
-    function toggleMateria(id) { /* igual que antes */ }
-    function actualizarContador() { /* igual que antes */ }
+    function actualizarMaterias() {
+      Object.keys(nombres).forEach(id => {
+        const mat = document.getElementById(id);
+        if (!mat) return;
+        const reqs = correlativas[id] || [];
+        const habilitada = reqs.every(r => aprobadas.includes(r));
+        mat.className = 'materia';
+        if (aprobadas.includes(id)) {
+          mat.classList.add("aprobada");
+        } else if (habilitada) {
+          mat.classList.add("habilitada");
+          mat.onclick = () => toggleMateria(id);
+        } else {
+          mat.classList.remove("habilitada");
+          mat.onclick = null;
+        }
+      });
+      actualizarContador();
+    }
+
+    function toggleMateria(id) {
+      const index = aprobadas.indexOf(id);
+      if (index >= 0) aprobadas.splice(index, 1);
+      else aprobadas.push(id);
+      localStorage.setItem("aprobadas", JSON.stringify(aprobadas));
+      actualizarMaterias();
+    }
+
+    function actualizarContador() {
+      document.getElementById("contador").textContent = `Materias aprobadas: ${aprobadas.length}`;
+    }
 
     crearMalla();
   </script></body>
