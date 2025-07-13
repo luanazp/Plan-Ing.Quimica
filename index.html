@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -19,13 +19,18 @@
       border-radius: 12px;
       padding: 15px;
       margin: 15px auto;
-      max-width: 500px;
+      max-width: 600px;
     }
     .anio h2 {
       color: #800000;
     }
+    .modulo {
+      font-weight: bold;
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
     .materia {
-      margin: 8px 0;
+      margin: 5px 0 5px 20px;
       opacity: 0.4;
       pointer-events: none;
     }
@@ -40,25 +45,36 @@
 </head>
 <body>
   <h1>Malla Interactiva - Ingeniería Química</h1>
+  <p style="text-align: center; font-weight: bold; color: #444;">Materias aprobadas: <span id="contador">0</span></p>
+
+  <div class="anio" id="exigencias">
+    <h2>Exigencias Adicionales</h2>
+    <div class="materia enabled"><input type="checkbox" id="ingles">Suficiencia de Idioma (Inglés)</div>
+    <div class="materia enabled"><input type="checkbox" id="practicas">Prácticas de Fábrica</div>
+  </div>
 
   <div class="anio" id="anio1">
     <h2>1° Año</h2>
+    <div class="modulo">Módulo 1</div>
     <div class="materia enabled"><input type="checkbox" id="calculo1">Cálculo I</div>
-    <div class="materia enabled"><input type="checkbox" id="algebra">Álgebra y Geometría Analítica</div>
-    <div class="materia enabled"><input type="checkbox" id="fisica1">Física I</div>
+    <div class="materia enabled"><input type="checkbox" id="algebra">Álgebra I</div>
     <div class="materia enabled"><input type="checkbox" id="sistemas">Sistemas de Representación</div>
+    <div class="materia enabled"><input type="checkbox" id="fisica1">Física I</div>
+    <div class="modulo">Módulo 2</div>
+    <div class="materia" id="algebra2_div"><input type="checkbox" id="algebra2">Álgebra II</div>
     <div class="materia" id="calculo2_div"><input type="checkbox" id="calculo2">Cálculo II</div>
-    <div class="materia" id="algebra2_div"><input type="checkbox" id="algebra2">Elementos de Álgebra Lineal</div>
     <div class="materia" id="fisica2_div"><input type="checkbox" id="fisica2">Física II</div>
-    <div class="materia" id="fundquimica_div"><input type="checkbox" id="fundquimica">Fundamentos de Química General</div>
+    <div class="materia" id="fundquimica_div"><input type="checkbox" id="fundquimica">Fundamentos de Química</div>
     <div class="materia enabled"><input type="checkbox" id="informatica">Informática</div>
   </div>
 
   <div class="anio" id="anio2">
     <h2>2° Año</h2>
+    <div class="modulo">Módulo 3</div>
     <div class="materia" id="calculo3_div"><input type="checkbox" id="calculo3">Cálculo III</div>
     <div class="materia" id="fisica3_div"><input type="checkbox" id="fisica3">Física III</div>
-    <div class="materia" id="quimgen_div"><input type="checkbox" id="quimgen">Química General e Inorgánica</div>
+    <div class="materia" id="quimgen_div"><input type="checkbox" id="quimgen">Química Inorgánica</div>
+    <div class="modulo">Módulo 4</div>
     <div class="materia" id="calculo4_div"><input type="checkbox" id="calculo4">Cálculo IV</div>
     <div class="materia" id="probabilidad_div"><input type="checkbox" id="probabilidad">Probabilidad y Estadística</div>
     <div class="materia" id="anali1_div"><input type="checkbox" id="anali1">Química Analítica I</div>
@@ -67,84 +83,89 @@
 
   <div class="anio" id="anio3">
     <h2>3° Año</h2>
-    <div class="materia" id="termo_div"><input type="checkbox" id="termo">Termodinámica de Procesos</div>
-    <div class="materia" id="intro_div"><input type="checkbox" id="intro">Introducción a la Ingeniería Química</div>
+    <div class="modulo">Módulo 5</div>
     <div class="materia" id="anali2_div"><input type="checkbox" id="anali2">Química Analítica II</div>
     <div class="materia" id="org2_div"><input type="checkbox" id="org2">Química Orgánica II</div>
+    <div class="materia" id="intro_div"><input type="checkbox" id="intro">Introducción a la Ingeniería Química</div>
+    <div class="materia" id="termo_div"><input type="checkbox" id="termo">Termodinámica</div>
+    <div class="modulo">Módulo 6</div>
+    <div class="materia" id="electrotecnia_div"><input type="checkbox" id="electrotecnia">Electrotecnia</div>
     <div class="materia" id="fisicoq_div"><input type="checkbox" id="fisicoq">Fisicoquímica</div>
-    <div class="materia" id="balances_div"><input type="checkbox" id="balances">Balances de Materia y Energía</div>
+    <div class="materia" id="balances_div"><input type="checkbox" id="balances">Balances</div>
     <div class="materia" id="fenomenos_div"><input type="checkbox" id="fenomenos">Fenómenos de Transporte</div>
-    <div class="materia" id="electrotecnia_div"><input type="checkbox" id="electrotecnia">Electrotecnia y Máquinas Eléctricas</div>
   </div>
 
   <div class="anio" id="anio4">
     <h2>4° Año</h2>
-    <div class="materia" id="micro_div"><input type="checkbox" id="micro">Microbiología General e Industrial</div>
-    <div class="materia" id="reactores1_div"><input type="checkbox" id="reactores1">Análisis y Diseño de Reactores I</div>
+    <div class="modulo">Módulo 7</div>
+    <div class="materia" id="micro_div"><input type="checkbox" id="micro">Microbiología</div>
     <div class="materia" id="ou1_div"><input type="checkbox" id="ou1">Operaciones Unitarias I</div>
-    <div class="materia" id="ou2_div"><input type="checkbox" id="ou2">Operaciones Unitarias II</div>
+    <div class="materia" id="reactores1_div"><input type="checkbox" id="reactores1">Reactores I</div>
     <div class="materia" id="economia_div"><input type="checkbox" id="economia">Economía y Organización Industrial</div>
-    <div class="materia" id="reactores2_div"><input type="checkbox" id="reactores2">Análisis y Diseño de Reactores II</div>
+    <div class="modulo">Módulo 8</div>
+    <div class="materia" id="reactores2_div"><input type="checkbox" id="reactores2">Reactores II</div>
+    <div class="materia" id="ou2_div"><input type="checkbox" id="ou2">Operaciones Unitarias II</div>
     <div class="materia" id="legal_div"><input type="checkbox" id="legal">Ingeniería Legal</div>
-    <div class="materia" id="mecanica_div"><input type="checkbox" id="mecanica">Mecánica Aplicada</div>
+    <div class="materia" id="mecanica_div"><input type="checkbox" id="mecanica">Mecánica</div>
   </div>
 
   <div class="anio" id="anio5">
     <h2>5° Año</h2>
+    <div class="modulo">Módulo 9</div>
     <div class="materia" id="ou3_div"><input type="checkbox" id="ou3">Operaciones Unitarias III</div>
     <div class="materia" id="control_div"><input type="checkbox" id="control">Control de Procesos</div>
     <div class="materia" id="proyectos_div"><input type="checkbox" id="proyectos">Formulación y Evaluación de Proyectos</div>
-    <div class="materia" id="diseno_div"><input type="checkbox" id="diseno">Diseño y Optimización de Procesos</div>
-    <div class="materia" id="ambiental_div"><input type="checkbox" id="ambiental">Ingeniería Ambiental e Higiene y Seguridad del Trabajo</div>
-    <div class="materia" id="piloto_div"><input type="checkbox" id="piloto">Tecnología de los Procesos Industriales en Escala Piloto</div>
+    <div class="modulo">Módulo 10</div>
+    <div class="materia" id="ambiental_div"><input type="checkbox" id="ambiental">Ingeniería Ambiental</div>
+    <div class="materia" id="diseno_div"><input type="checkbox" id="diseno">Diseño y Optimización</div>
+    <div class="materia" id="piloto_div"><input type="checkbox" id="piloto">Tecnología de Procesos</div>
   </div>
 
   <script>
-    const correlativas = {
-      calculo2: ['calculo1'],
-      algebra2: ['algebra'],
-      fisica2: ['fisica1', 'algebra'],
-      fundquimica: ['fisica1', 'calculo1'],
-      calculo3: ['calculo2', 'algebra2'],
-      fisica3: ['fisica2', 'calculo2', 'fundquimica'],
-      quimgen: ['fundquimica'],
-      calculo4: ['calculo3'],
-      probabilidad: ['calculo3'],
-      anali1: ['calculo1', 'quimgen'],
-      org1: ['quimgen'],
-      termo: ['fisica2', 'quimgen', 'calculo3'],
-      intro: ['fisica2', 'informatica', 'quimgen', 'calculo2'],
-      anali2: ['anali1', 'fisica3', 'probabilidad'],
-      org2: ['org1'],
-      fisicoq: ['fisica3', 'termo'],
-      balances: ['termo', 'intro'],
-      fenomenos: ['fisicoq', 'balances'],
-      electrotecnia: ['fisica3'],
-      micro: ['org2', 'intro'],
-      ou1: ['fenomenos', 'balances'],
-      ou2: ['ou1'],
-      reactores1: ['fisicoq', 'balances'],
-      economia: ['fenomenos', 'balances'],
-      reactores2: ['reactores1', 'fenomenos'],
-      legal: ['ou1'],
-      mecanica: ['ou1'],
-      ou3: ['ou2', 'reactores1', 'ou1'],
-      control: ['ou2', 'reactores1', 'ou1'],
-      proyectos: ['economia', 'reactores1', 'ou1'],
-      ambiental: ['ou1'],
-      diseno: ['reactores1', 'ou1', 'ou2'],
-      piloto: ['ou3']
-    };
+    const correlativas = { calculo2:['calculo1'], algebra2:['algebra'], fisica2:['fisica1','algebra'], fundquimica:['fisica1','calculo1'], calculo3:['calculo2','algebra2'], fisica3:['fisica2','calculo2','fundquimica'], quimgen:['fundquimica'], calculo4:['calculo3'], probabilidad:['calculo3'], anali1:['calculo1','quimgen'], org1:['quimgen'], termo:['fisica2','quimgen','calculo3'], intro:['fisica2','informatica','quimgen','calculo2'], anali2:['anali1','fisica3','probabilidad'], org2:['org1'], fisicoq:['fisica3','termo'], balances:['termo','intro'], fenomenos:['fisicoq','balances'], electrotecnia:['fisica3'], micro:['org2','intro','ingles'], ou1:['fenomenos','balances','ingles'], ou2:['ou1','ingles'], reactores1:['fisicoq','balances','ingles'], economia:['fenomenos','balances','ingles'], reactores2:['reactores1','fenomenos'], legal:['ou1','ingles'], mecanica:['ou1','ingles'], ou3:['ou2','reactores1','ou1'], control:['ou2','reactores1','ou1'], proyectos:['economia','reactores1','ou1'], ambiental:['ou1'], diseno:['reactores1','ou1','ou2'], piloto:['ou3'] };
 
     function updateMaterias() {
       for (const [materia, reqs] of Object.entries(correlativas)) {
         const div = document.getElementById(materia + '_div');
-        const enabled = reqs.every(id => document.getElementById(id).checked);
-        div.classList.toggle('enabled', enabled);
+        const enabled = reqs.every(id => document.getElementById(id)?.checked);
+        if (div) div.classList.toggle('enabled', enabled);
       }
     }
 
+    function guardarEstado() {
+      const estado = {};
+      document.querySelectorAll('input[type=checkbox]').forEach(chk => {
+        estado[chk.id] = chk.checked;
+      });
+      localStorage.setItem('mallaEstado', JSON.stringify(estado));
+    }
+
+    function cargarEstado() {
+      const estado = JSON.parse(localStorage.getItem('mallaEstado')) || {};
+      document.querySelectorAll('input[type=checkbox]').forEach(chk => {
+        if (estado.hasOwnProperty(chk.id)) {
+          chk.checked = estado[chk.id];
+        }
+      });
+    }
+
+    function contarAprobadas() {
+      const total = [...document.querySelectorAll('input[type=checkbox]')].filter(chk => chk.checked).length;
+      document.getElementById('contador').textContent = total;
+    }
+
     document.querySelectorAll('input[type=checkbox]').forEach(chk => {
-      chk.addEventListener('change', updateMaterias
+      chk.addEventListener('change', () => {
+        updateMaterias();
+        guardarEstado();
+        contarAprobadas();
+      });
+    });
+
+    cargarEstado();
+    updateMaterias();
+    contarAprobadas();
+  </script>
 </body>
-                           </html>
+</html>
+
