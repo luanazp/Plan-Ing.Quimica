@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -17,74 +19,51 @@
       --a4: #ffe5b4;
       --a5: #a5c0ff;
     }
+
     body {
       font-family: 'Segoe UI', sans-serif;
       background-color: #f8f9fa;
-      color: #1d3557;
+      color: var(--titulo);
       margin: 0;
       padding: 2rem;
     }
+
     h1 {
       text-align: center;
       margin-bottom: 2rem;
     }
-.anio {
-  display: flex;
-  flex-direction: column; /* Módulos en columna */
-  padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  min-width: 300px;
-  box-sizing: border-box;
-}
 
-.anio h2 {
-  text-align: center;
-  margin-bottom: 1rem;
-  color: var(--titulo);
-}
+    .anio {
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      min-width: 300px;
+      box-sizing: border-box;
+    }
 
-.modulo {
-  background-color: white;
-  border-radius: 10px;
-  margin-bottom: 1rem;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
+    .anio.a1 { background-color: var(--a1); }
+    .anio.a2 { background-color: var(--a2); }
+    .anio.a3 { background-color: var(--a3); }
+    .anio.a4 { background-color: var(--a4); }
+    .anio.a5 { background-color: var(--a5); }
 
-.modulo h3 {
-  background:var(--modulo);
-  color: white;
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-  font-size: 1.1rem;
-  text-align: center;
-}
+    .anio h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: var(--titulo);
+    }
 
-.modulo .materia {
-  background-color: #b3d7ff;
-  color: #003366;
-  padding: 0.5rem;
-  border-radius: 6px;
-  text-align: center;
-  font-size: 0.9rem;
-}
-
-        
-#malla {
-  display: flex;
-  flex-direction: row; /* Años en fila horizontal */
-  gap: 20px;
-  overflow-x: auto;
-  padding: 1rem;
-}
-@media (max-width: 768px) {
-  #malla {
-    flex-direction: column;
-    align-items: center;
-  }
+    .modulo {
+      background-color: white;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
 
     .modulo h3 {
       background: var(--modulo);
@@ -92,29 +71,45 @@
       padding: 0.5rem;
       border-radius: 8px;
       margin: 0 0 0.5rem 0;
+      text-align: center;
     }
+
     .materias {
       display: flex;
-      flex-direction:column;
+      flex-direction: column;
       gap: 0.5rem;
     }
+
     .materia {
       padding: 0.5rem 1rem;
       border-radius: 8px;
       background-color: var(--bloqueada);
       cursor: not-allowed;
       transition: 0.3s;
+      text-align: center;
+      font-size: 0.9rem;
       user-select: none;
     }
+
     .materia.habilitada {
       background-color: var(--habilitada);
       border: 1px solid #aaa;
       cursor: pointer;
     }
+
     .materia.aprobada {
       background-color: var(--aprobada);
       text-decoration: line-through;
     }
+
+    #malla {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      overflow-x: auto;
+      padding: 1rem;
+    }
+
     #exigencias {
       background: #e9ecef;
       padding: 1rem;
@@ -122,22 +117,20 @@
       border-left: 5px solid #6c757d;
       border-radius: 8px;
     }
+
     .contador {
       text-align: center;
       margin-top: 2rem;
       font-weight: bold;
     }
-    .a1 { background: var(--a1); }
-    .a2 { background: var(--a2); }
-    .a3 { background: var(--a3); }
-    .a4 { background: var(--a4); }
-    .a5 { background: var(--a5); }
-    
 
+    @media (max-width: 768px) {
+      #malla {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
   </style>
-
-
-  
 </head>
 <body>
   <h1>Malla Interactiva - Ingeniería Química</h1>
@@ -264,13 +257,13 @@
       const container = document.getElementById("malla");
       Object.entries(materias).forEach(([anio, modulos]) => {
         const anioDiv = document.createElement("div");
-        anioDiv.className = `anio ${yearClass[anio] || ''}`;
-        anioDiv.innerHTML = `<h2>${anio}</h2>`;
+        anioDiv.className = anio ${yearClass[anio] || ''};
+        anioDiv.innerHTML = <h2>${anio}</h2>;
 
         modulos.forEach(({modulo, items}) => {
           const moduloDiv = document.createElement("div");
           moduloDiv.className = "modulo";
-          moduloDiv.innerHTML = `<h3>${modulo}</h3><div class="materias"></div>`;
+          moduloDiv.innerHTML = <h3>${modulo}</h3><div class="materias"></div>;
           const contenedor = moduloDiv.querySelector(".materias");
 
           items.forEach(id => {
@@ -318,10 +311,13 @@
     }
 
     function actualizarContador() {
-      document.getElementById("contador").textContent = `Materias aprobadas: ${aprobadas.length}`;
+      document.getElementById("contador").textContent = Materias aprobadas: ${aprobadas.length};
     }
 
     crearMalla();
   </script>
 </body>
 </html>
+
+
+
