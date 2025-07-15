@@ -155,8 +155,7 @@
       '1° año': 'a1', '2° año': 'a2', '3° año': 'a3', '4° año': 'a4', '5° año': 'a5'
     };
 
-    const correlativas = {
-      algebra2: ['algebra1'],
+    const correlativas = { algebra2: ['algebra1'],
       calculo2: ['calculo1'],
       fisica2: ['fisica1', 'algebra1'],
       fundamentos: ['calculo1', 'fisica1'],
@@ -189,10 +188,9 @@
       piloto: ['operaciones3'],
       practicas: ['operaciones1', 'reactores1'],
       ingles: ['calculo1', 'algebra1', 'sistemas', 'fisica1']
-    };
+     };
 
-    const nombres = {
-      calculo1: "Cálculo I",
+    const nombres = { calculo1: "Cálculo I",
       algebra1: "Álgebra y Geometría Analítica",
       sistemas: "Sistemas de Representación",
       fisica1: "Física I",
@@ -232,7 +230,7 @@
       piloto: "Tecnología de los Procesos Industriales en Escala Piloto",
       ingles: "Suficiencia de Idioma (Inglés)",
       practicas: "Prácticas de Fábrica"
-    };
+     };
 
     const aprobadas = JSON.parse(localStorage.getItem("aprobadas") || "[]");
 
@@ -240,13 +238,13 @@
       const container = document.getElementById("malla");
       Object.entries(materias).forEach(([anio, modulos]) => {
         const anioDiv = document.createElement("div");
-        anioDiv.className = anio ${yearClass[anio] || ''};
-        anioDiv.innerHTML = <h2>${anio}</h2>;
+        anioDiv.className = `anio ${yearClass[anio] || ''}`;
+        anioDiv.innerHTML = `<h2>${anio}</h2>`;
 
         modulos.forEach(({modulo, items}) => {
           const moduloDiv = document.createElement("div");
           moduloDiv.className = "modulo";
-          moduloDiv.innerHTML = <h3>${modulo}</h3><div class="materias"></div>;
+          moduloDiv.innerHTML = `<h3>${modulo}</h3><div class="materias"></div>`;
           const contenedor = moduloDiv.querySelector(".materias");
 
           items.forEach(id => {
@@ -294,7 +292,7 @@
     }
 
     function actualizarContador() {
-      document.getElementById("contador").textContent = Materias aprobadas: ${aprobadas.length};
+      document.getElementById("contador").textContent = `Materias aprobadas: ${aprobadas.length}`;
     }
 
     crearMalla();
@@ -302,4 +300,5 @@
 
 </body>
 </html>
+
 
