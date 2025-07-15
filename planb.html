@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Malla Interactiva - Ingeniería Química</title>
+  <style>
+    :root {
+      --aprobada: #a8dadc;
+      --habilitada: #f1faee;
+      --bloqueada: #ccc;
+      --titulo: #1d3557;
+      --modulo: #457b9d;
+      --a1: #d0ebff;
+      --a2: #d8f3dc;
+      --a3: #f3d9fa;
+      --a4: #ffe5b4;
+      --a5: #a5c0ff;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f8f9fa;
+      color: var(--titulo);
+      margin: 0;
+      padding: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    #malla {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      overflow-x: auto;
+      padding: 1rem;
+    }
+
+    .anio {
+      display: flex;
+      flex-direction: column;
+      min-width: 260px;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .anio.a1 { background-color: var(--a1); }
+    .anio.a2 { background-color: var(--a2); }
+    .anio.a3 { background-color: var(--a3); }
+    .anio.a4 { background-color: var(--a4); }
+    .anio.a5 { background-color: var(--a5); }
+
+    .anio h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: var(--titulo);
+    }
+
+    .modulo {
+      background-color: white;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .modulo h3 {
+      background: var(--modulo);
+      color: white;
+      padding: 0.5rem;
+      border-radius: 8px;
+      margin: 0 0 0.5rem 0;
+      text-align: center;
+    }
+
+    .materias {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .materia {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      background-color: var(--bloqueada);
+      cursor: not-allowed;
+      transition: 0.3s;
+      text-align: center;
+      font-size: 0.9rem;
+      user-select: none;
+    }
+
+    .materia.habilitada {
+      background-color: var(--habilitada);
+      border: 1px solid #aaa;
+      cursor: pointer;
+    }
+
+    .materia.aprobada {
+      background-color: var(--aprobada);
+      text-decoration: line-through;
+    }
+
+    .contador {
+      text-align: center;
+      margin-top: 2rem;
+      font-weight: bold;
+    }
+
+    @media (max-width: 768px) {
+      #malla {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Malla Interactiva - Ingeniería Química</h1>
+  <div id="malla"></div>
+  <div class="contador" id="contador"></div>
+
+  <script>
+    const materias = {
+      '1° año': [
+        { modulo: 'Módulo 1', items: ['calculo1', 'algebra1', 'sistemas', 'fisica1'] },
+        { modulo: 'Módulo 2', items: ['algebra2', 'calculo2', 'fisica2', 'fundamentos', 'informatica'] }
+      ],
+      '2° año': [
+        { modulo: 'Módulo 3', items: ['calculo3', 'fisica3', 'inorganica'] },
+        { modulo: 'Módulo 4', items: ['calculo4', 'probabilidad', 'analitica1', 'organica1'] }
+      ],
+      '3° año': [
+        { modulo: 'Módulo 5', items: ['analitica2', 'organica2', 'introduccion', 'termodinamica'] },
+        { modulo: 'Módulo 6', items: ['electrotecnia', 'fisicoquimica', 'balances', 'fenomenos'] }
+      ],
+      '4° año': [
+        { modulo: 'Módulo 7', items: ['microbiologia', 'operaciones1', 'reactores1', 'economia'] },
+        { modulo: 'Módulo 8', items: ['reactores2', 'operaciones2', 'legal', 'mecanica'] }
+      ],
+      '5° año': [
+        { modulo: 'Módulo 9', items: ['operaciones3', 'control', 'proyectos'] },
+        { modulo: 'Módulo 10', items: ['ambiental', 'diseno', 'piloto'] }
+      ]
+    };
+
+    const yearClass = {
+      '1° año': 'a1', '2° año': 'a2', '3° año': 'a3', '4° año': 'a4', '5° año': 'a5'
+    };
+
+    const correlativas = {
+      algebra2: ['algebra1'],
+      calculo2: ['calculo1'],
+      fisica2: ['fisica1', 'algebra1'],
+      fundamentos: ['calculo1', 'fisica1'],
+      calculo3: ['calculo2', 'algebra2'],
+      fisica3: ['fisica2', 'calculo2', 'fundamentos'],
+      inorganica: ['fundamentos'],
+      analitica1: ['calculo1', 'inorganica'],
+      organica1: ['inorganica'],
+      introduccion: ['fisica2', 'calculo2', 'informatica', 'inorganica'],
+      termodinamica: ['fisica2', 'inorganica', 'calculo3'],
+      analitica2: ['analitica1', 'fisica3', 'probabilidad'],
+      organica2: ['organica1'],
+      fisicoquimica: ['fisica3', 'termodinamica'],
+      balances: ['termodinamica', 'introduccion'],
+      fenomenos: ['termodinamica', 'calculo4'],
+      electrotecnia: ['fisica3'],
+      microbiologia: ['organica2', 'introduccion', 'ingles'],
+      operaciones1: ['fenomenos', 'balances', 'ingles'],
+      reactores1: ['fisicoquimica', 'balances', 'ingles'],
+      economia: ['fenomenos', 'balances', 'ingles'],
+      reactores2: ['reactores1', 'fenomenos'],
+      operaciones2: ['operaciones1', 'ingles'],
+      legal: ['operaciones1', 'ingles'],
+      mecanica: ['termodinamica'],
+      operaciones3: ['reactores1', 'operaciones2', 'operaciones1'],
+      control: ['reactores1', 'operaciones2', 'operaciones1'],
+      proyectos: ['economia', 'reactores1', 'operaciones1'],
+      ambiental: ['operaciones1'],
+      diseno: ['reactores1', 'operaciones1', 'operaciones2'],
+      piloto: ['operaciones3'],
+      practicas: ['operaciones1', 'reactores1'],
+      ingles: ['calculo1', 'algebra1', 'sistemas', 'fisica1']
+    };
+
+    const nombres = {
+      calculo1: "Cálculo I",
+      algebra1: "Álgebra y Geometría Analítica",
+      sistemas: "Sistemas de Representación",
+      fisica1: "Física I",
+      algebra2: "Elementos de Álgebra Lineal",
+      calculo2: "Cálculo II",
+      fisica2: "Física II",
+      fundamentos: "Fundamentos de Química General",
+      informatica: "Informática",
+      calculo3: "Cálculo III",
+      fisica3: "Física III",
+      inorganica: "Química General e Inorgánica",
+      calculo4: "Cálculo IV",
+      probabilidad: "Probabilidad y Estadística",
+      analitica1: "Química Analítica I",
+      organica1: "Química Orgánica I",
+      analitica2: "Química Analítica II",
+      organica2: "Química Orgánica II",
+      introduccion: "Introducción a la Ingeniería Química",
+      termodinamica: "Termodinámica de Procesos",
+      electrotecnia: "Electrotecnia y Máquinas Eléctricas",
+      fisicoquimica: "Fisicoquímica",
+      balances: "Balances de Materia y Energía",
+      fenomenos: "Fenómenos de Transporte",
+      microbiologia: "Microbiología General e Industrial",
+      operaciones1: "Operaciones Unitarias I",
+      reactores1: "Análisis y Diseño de Reactores I",
+      economia: "Economía y Organización Industrial",
+      reactores2: "Análisis y Diseño de Reactores II",
+      operaciones2: "Operaciones Unitarias II",
+      legal: "Ingeniería Legal",
+      mecanica: "Mecánica Aplicada",
+      operaciones3: "Operaciones Unitarias III",
+      control: "Control de Procesos",
+      proyectos: "Formulación y Evaluación de Proyectos",
+      ambiental: "Ingeniería Ambiental e Higiene y Seguridad del Trabajo",
+      diseno: "Diseño y Optimización de Procesos",
+      piloto: "Tecnología de los Procesos Industriales en Escala Piloto",
+      ingles: "Suficiencia de Idioma (Inglés)",
+      practicas: "Prácticas de Fábrica"
+    };
+
+    const aprobadas = JSON.parse(localStorage.getItem("aprobadas") || "[]");
+
+    function crearMalla() {
+      const container = document.getElementById("malla");
+      Object.entries(materias).forEach(([anio, modulos]) => {
+        const anioDiv = document.createElement("div");
+        anioDiv.className = `anio ${yearClass[anio] || ''}`;
+        anioDiv.innerHTML = `<h2>${anio}</h2>`;
+
+        modulos.forEach(({modulo, items}) => {
+          const moduloDiv = document.createElement("div");
+          moduloDiv.className = "modulo";
+          moduloDiv.innerHTML = `<h3>${modulo}</h3><div class="materias"></div>`;
+          const contenedor = moduloDiv.querySelector(".materias");
+
+          items.forEach(id => {
+            const mat = document.createElement("div");
+            mat.className = "materia";
+            mat.id = id;
+            mat.textContent = nombres[id] || id;
+            contenedor.appendChild(mat);
+          });
+
+          anioDiv.appendChild(moduloDiv);
+        });
+
+        container.appendChild(anioDiv);
+      });
+      actualizarMaterias();
+    }
+
+    function actualizarMaterias() {
+      Object.keys(nombres).forEach(id => {
+        const mat = document.getElementById(id);
+        if (!mat) return;
+        const reqs = correlativas[id] || [];
+        const habilitada = reqs.every(r => aprobadas.includes(r));
+        mat.className = 'materia';
+        if (aprobadas.includes(id)) {
+          mat.classList.add("aprobada");
+        } else if (habilitada) {
+          mat.classList.add("habilitada");
+          mat.onclick = () => toggleMateria(id);
+        } else {
+          mat.classList.remove("habilitada");
+          mat.onclick = null;
+        }
+      });
+      actualizarContador();
+    }
+
+    function toggleMateria(id) {
+      const index = aprobadas.indexOf(id);
+      if (index >= 0) aprobadas.splice(index, 1);
+      else aprobadas.push(id);
+      localStorage.setItem("aprobadas", JSON.stringify(aprobadas));
+      actualizarMaterias();
+    }
+
+    function actualizarContador() {
+      document.getElementById("contador").textContent = `Materias aprobadas: ${aprobadas.length}`;
+    }
+
+    crearMalla();
+  </script>
+
+</body>
+</html>
